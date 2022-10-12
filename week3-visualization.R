@@ -74,18 +74,18 @@ ggplot(gdp_capita2) +
 
 WDIsearch("unemployment", cache = new_wdi_cache)
 
-unemployment <- WDI(indicator = "UNEMPSA_")
+unemployment <- WDI(indicator = "SL.UEM.TOTL.ZS")
 View(unemployment)
 
 unemployment <- WDI(country = "all",
-                    indicator = "UNEMPSA_",
+                    indicator = "SL.UEM.TOTL.ZS",
                     start = 2009,
                     end = 2020,
                     cache = new_wdi_cache)
 
 #to plot it now 
 ggplot(unemployment) +
-  geom_point(aes(year, UNEMPSA_))
+  geom_point(aes(year,SL.UEM.TOTL.ZS))
 
 #Question : How do you which country each plot belongs to?
 
@@ -157,3 +157,50 @@ ggplot(country_data, aes(year,SP.DYN.LE00.IN, colour = country, size=income)) +
   geom_point() +
   labs(x = "years", y="Life expectancy at birth, total(years)", shape="Country")
 
+
+
+#-----implementing shapes, colours, sizes, xlim, ylim on previous exercise------#
+
+
+#1) Plot that displays GDP per capita growth for the countries for 2009-2020
+
+WDIsearch("GDP per capita", cache = new_wdi_cache)
+
+View(gdp_capita) #we already made this dataframe in the beginning 
+
+ggplot(gdp_capita) +
+  geom_point(aes(year, NY.GDP.PCAP.KD), colour="country")
+
+#plotting for 2009-2020 
+
+View(gdp_capita2)
+
+gdp_capita2 <- WDI(country=c("GB","FR","ES","IT","NL", "CN","AE","IN","JO","US"),
+                   indicator = "NY.GDP.PCAP.KD",
+                   start = 2009,
+                   end = 2020,
+                   cache = new_wdi_cache)
+
+ggplot(gdp_capita2) +
+  geom_point(aes(year, NY.GDP.PCAP.KD, colour= country)) +
+  xlim(2009,2016)+
+  ylim(200, 190000) +
+  labs(x = "year", y="GDP per capita", colour="country")
+
+
+#2) Plot that displays unemployment (% of total unemployment) for the countries from 2009-2020.
+
+WDIsearch("unemployment", cache = new_wdi_cache)
+
+unemployment <- WDI(indicator = "UNEMPSA_")
+View(unemployment)
+
+unemployment <- WDI(country = "all",
+                    indicator = "UNEMPSA_",
+                    start = 2009,
+                    end = 2020,
+                    cache = new_wdi_cache)
+
+#to plot it now 
+ggplot(unemployment) +
+  geom_point(aes(year, UNEMPSA_))
